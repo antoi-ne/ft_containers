@@ -1,7 +1,7 @@
 #ifndef FT_VECTOR_HPP
 #define FT_VECTOR_HPP
 
-#include <memory> //std::allocator
+#include <memory>
 
 namespace ft
 {
@@ -14,7 +14,7 @@ namespace ft
 
 	private:
 
-	}
+	};
 
 }
 
