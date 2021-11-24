@@ -53,7 +53,11 @@ namespace ft
 		// destructor
 
 		~vector()
-		{}
+		{
+			for (size_type i = 0; i < this->_size; i++)
+				this->_alloc.destroy(&(this->_sequence[i]));
+			this->alloc.deallocate(this->_sequence, this->_capacity);
+		}
 
 		// assignation operator
 
