@@ -2,6 +2,7 @@
 #define FT_ITERATOR_TRAITS_HPP
 
 #include <cstddef>
+#include <iterator>
 
 #include "iterator.hpp"
 
