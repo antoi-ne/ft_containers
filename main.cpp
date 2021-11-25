@@ -1,6 +1,7 @@
 //#include "containers/vector/vector.hpp"
 
-#include "containers/iterator/iterator_wrapper.hpp"
+#include "containers/iterator/wrap_iter.hpp"
+#include "containers/iterator/reverse_iterator.hpp"
 
 #include <vector>
 #include <iostream>
@@ -8,6 +9,4 @@
 
 int main(void)
 {
-	std::iterator_traits<ft::wrap_iter<int *> >::value_type x;
-	(void)x;
 }
