@@ -55,23 +55,47 @@ namespace ft
 			return *(--tmp);
 		}
 
-		reverse_iterator operator+(difference_type n) const;
+		pointer operator->() const
+		{
+			return &this->operator*();
+		}
 
-		reverse_iterator& operator++();
+		reverse_iterator& operator++()
+		{
+			--(this->_it);
+			return *this;
+		}
 
-		reverse_iterator operator++(int);
+		reverse_iterator operator++(int)
+		{
+			reverse_iterator tmp(*this);
+			--(this->_it);
+			return tmp;
+		}
+
+		reverse_iterator& operator--()
+		{
+			++(this->_it);
+			return *this;
+		}
+
+		reverse_iterator operator--(int)
+		{
+			reverse_iterator tmp(*this);
+			++(this->_it);
+			return tmp;
+		}
+
+		reverse_iterator operator+(difference_type n) const
+		{
+			return reverse_iterator(this->_it - n);
+		}
 
 		reverse_iterator& operator+=(difference_type n);
 
 		reverse_iterator operator-(difference_type n) const;
 
-		reverse_iterator& operator--();
-
-		reverse_iterator operator--(int);
-
 		reverse_iterator& operator-= (difference_type n);
-
-		pointer operator->() const;
 
 		reference operator[] (difference_type n) const;
 
