@@ -1,12 +1,13 @@
-//#include "containers/vector/vector.hpp"
+#include <iostream>
+
+//#include <vector>
+//#include <iterator>
 
 #include "containers/iterator/wrap_iter.hpp"
 #include "containers/iterator/reverse_iterator.hpp"
-
-#include <vector>
-#include <iostream>
-#include <iterator>
+#include "containers/vector/vector.hpp"
 
 int main(void)
 {
+	ft::vector<int> vect;
 }

@@ -33,7 +33,7 @@ namespace ft
 		// constructors
 
 		explicit vector(const allocator_type &alloc = allocator_type())
-			: _alloc(alloc), _capacity(0), _size(0)
+			: _alloc(alloc), _size(0), _capacity(0), _sequence(nullptr)
 		{
 			this->_sequence = this->_alloc.allocate(this->_capacity);
 		}
@@ -48,11 +48,11 @@ namespace ft
 
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-			: _sequence(nullptr) _capacity(last - first), _size(last - first) _alloc(alloc)
+			: _sequence(nullptr), _capacity(last - first), _size(last - first), _alloc(alloc)
 		{
 			this->_sequence = this->_alloc.allocate(this->_capacity);
 			difference_type i = 0;
-			for (InputIterator it = first, it !+ last; it++)
+			for (InputIterator it = first; it != last; it++)
 			{
 				this->_alloc.construct(&(this->_sequence[i]), *it);
 				i++;
@@ -73,7 +73,7 @@ namespace ft
 		{
 			for (size_type i = 0; i < this->_size; i++)
 				this->_alloc.destroy(&(this->_sequence[i]));
-			this->alloc.deallocate(this->_sequence, this->_capacity);
+			this->_alloc.deallocate(this->_sequence, this->_capacity);
 		}
 
 		// iterators
@@ -143,17 +143,18 @@ namespace ft
 
 		void resize(size_type n, value_type val = value_type())
 		{
+			(void)val;
 			if (n < this->size())
 			{
-
+				// TODO
 			}
 			else if (n > this->size() && n <= this->capacity())
 			{
-
+				// TODO
 			}
 			else if (n > this->size() && n > this->capacity())
 			{
-
+				// TODO
 			}
 		}
 
@@ -170,7 +171,10 @@ namespace ft
 		void reserve(size_type n)
 		{
 			if (n > this->size())
+			{
 				this->_realloc(n);
+				this->_capacity = n;
+			}
 		}
 
 		// element access
@@ -190,7 +194,7 @@ namespace ft
 			if (n >=0 && n < this->size())
 				return this->_sequence[n];
 			else
-				throw std::out_of_range();
+				throw std::out_of_range("vector");
 		}
 
 		const_reference at(size_type n) const
@@ -198,7 +202,7 @@ namespace ft
 			if (n >=0 && n < this->size())
 				return this->_sequence[n];
 			else
-				throw std::out_of_range();
+				throw std::out_of_range("vector");
 		}
 
 		reference front()
@@ -224,28 +228,80 @@ namespace ft
 		// modifiers
 
 		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last);
+		void assign(InputIterator first, InputIterator last);
 
-		void assign (size_type n, const value_type& val);
+		void assign(size_type n, const value_type& val);
 
-		void push_back (const value_type& val);
+		void push_back(const value_type& val)
+		{
+			if (this->size() == this->capacity())
+				this->reserve(this->size() == 0 ? 1 : this->size() * 2);
+			++(this->_size);
+			this->back() = val;
+		}
 
-		void pop_back();
+		void pop_back()
+		{
+			if (this->size > 0)
+			{
+				_alloc.destroy(&(this->back()));
+				--(this->size);
+			}
+		}
 
-		iterator insert (iterator position, const value_type& val);
+		iterator insert(iterator position, const value_type& val)
+		{
+			if (this->size() == this->capacity())
+				this->reserve(this->size() == 0 ? 1 : this->size() * 2);
 
-		void insert (iterator position, size_type n, const value_type& val);
+			iterator it = this->end();
+			for (; it != position; it--)
+			{
+				*it = *(it - 1);
+			}
+			*it = val;
+		}
+
+		void insert(iterator position, size_type n, const value_type& val);
 
 		template <class InputIterator>
-		void insert (iterator position, InputIterator first, InputIterator last);
+		void insert(iterator position, InputIterator first, InputIterator last);
 
-		iterator erase (iterator position);
+		iterator erase(iterator position);
 
-		iterator erase (iterator first, iterator last);
+		iterator erase(iterator first, iterator last)
+		{
+			if (first != last)
+			{
+				//pointer start = this->_sequence + (first - this->begin());
 
-		void swap (vector& x);
+			}
+			return iterator(first);
+		}
 
-		void clear();
+		void swap(vector& x)
+		{
+			allocator_type tmp_alloc = this->_alloc;
+			size_type tmp_size = this->_size;
+			size_type tmp_capacity = this->_capacity;
+			pointer tmp_sequence = this->_sequence;
+
+			this->_alloc = x._alloc;
+			this->_size = x._size;
+			this->_capacity = x._capacity;
+			this->_sequence = x._sequence;
+
+			x._alloc = tmp_alloc;
+			x._size = tmp_size;
+			x._capacity = tmp_capacity;
+			x._sequence = tmp_sequence;
+		}
+
+		void clear()
+		{
+			while (this->_size > 0)
+				this->pop_back();
+		}
 
 		// allocator
 
@@ -264,7 +320,7 @@ namespace ft
 		{
 			pointer new_seq = this->_alloc.allocate(n);
 
-			for (size_type i = 0; i < this->.size(); i++)
+			for (size_type i = 0; i < this->size(); i++)
 				_alloc.construct(&(new_seq[i]), this->_sequence[i]);
 
 			this->~vector();
