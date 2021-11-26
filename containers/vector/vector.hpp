@@ -7,6 +7,7 @@
 #include "../iterator/wrap_iter.hpp"
 #include "../iterator/reverse_iterator.hpp"
 #include "../utils/type_traits.hpp"
+#include "../utils/compare.hpp"
 
 
 namespace ft
@@ -296,7 +297,7 @@ namespace ft
 			}
 		}
 
-		iterator erase(const_iterator position)
+		iterator erase(iterator position)
 		{
 			return (this->erase(position, position + 1));
 		}
@@ -338,7 +339,7 @@ namespace ft
 					idx++;
 				}
 				while (it + idx != this->end())
-					this->_allocator.destroy(_p + idx++);
+					this->_alloc.destroy(_sequence + idx++);
 				this->_size -= n;
 			}
 			return (iterator(first));
@@ -396,40 +397,48 @@ namespace ft
 
 	// non-member operator overloads
 
-	//template <class T, class Alloc>
-	//bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	//{
-	//}
+	template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return (false);
+		size_t i = 0;
+		while (i < lhs.size())
+		{
+			if (lhs[i] != rhs[i])
+				return (false);
+			i++;
+		}
+		return (true);
+	}
 
-	//template <class T, class Alloc>
-	//bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	//{
-	//	return(!(lhs==rhs));
-	//}
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return(!(lhs==rhs));
+	}
 
-	//template <class T, class Alloc>
-	//bool operator< (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	//{
+	template <class T, class Alloc>
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return ((lhs == rhs) || (lhs < rhs));
+	}
+	template <class T, class Alloc>
+	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!(lhs == rhs) && !(lhs < rhs));
+	}
 
-	//}
-
-	//template <class T, class Alloc>
-	//bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	//{
-
-	//}
-
-	//template <class T, class Alloc>
-	//bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	//{
-
-	//}
-
-	//template <class T, class Alloc>
-	//bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	//{
-
-	//}
+	template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
 
 	// non-member functions
 

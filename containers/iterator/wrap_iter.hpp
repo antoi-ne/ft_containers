@@ -35,10 +35,10 @@ namespace ft
 			: _it(x.base())
 		{}
 
-		//template <class U>
-		//wrap_iter(const wrap_iter<U>& it)
-		//	: _it(it.base())
-		//{}
+		template <class U>
+		wrap_iter(const wrap_iter<U>& it)
+			: _it(it.base())
+		{}
 
 		// destructor
 
@@ -57,7 +57,7 @@ namespace ft
 		template< class U >
 		wrap_iter& operator=( const wrap_iter<U>& other )
 		{
-			this->_it = other._it;
+			this->_it = other.base();
 			return *this;
 		}
 
@@ -128,54 +128,153 @@ namespace ft
 
 		// non-member arithmetic operators
 
-		friend bool operator==(const wrap_iter & a, const wrap_iter & b)
-		{
-			return a.base() == b.base();
-		}
+		//friend bool operator==(const wrap_iter & a, const wrap_iter & b)
+		//{
+		//	return a.base() == b.base();
+		//}
 
-		friend bool operator<(const wrap_iter & a, const wrap_iter & b)
-		{
-			return a.base() < b.base();
-		}
+		//friend bool operator<(const wrap_iter & a, const wrap_iter & b)
+		//{
+		//	return a.base() < b.base();
+		//}
 
-		friend bool operator!=(const wrap_iter & a, const wrap_iter & b)
-		{
-			return a.base() != b.base();
-		}
+		//friend bool operator!=(const wrap_iter & a, const wrap_iter & b)
+		//{
+		//	return a.base() != b.base();
+		//}
 
-		friend bool operator>(const wrap_iter & a, const wrap_iter & b)
-		{
-			return a.base() > b.base();
-		}
+		//friend bool operator>(const wrap_iter & a, const wrap_iter & b)
+		//{
+		//	return a.base() > b.base();
+		//}
 
-		friend bool operator>=(const wrap_iter & a, const wrap_iter & b)
-		{
-			return a.base() >= b.base();
-		}
+		//friend bool operator>=(const wrap_iter & a, const wrap_iter & b)
+		//{
+		//	return a.base() >= b.base();
+		//}
 
-		friend bool operator<=(const wrap_iter & a, const wrap_iter & b)
-		{
-			return a.base() <= b.base();
-		}
+		//friend bool operator<=(const wrap_iter & a, const wrap_iter & b)
+		//{
+		//	return a.base() <= b.base();
+		//}
 
-		// non-member relational operators
+		//// non-member relational operators
 
-		friend difference_type operator-(const wrap_iter &a, const wrap_iter &b)
-		{
-			return a.base() - b.base();
-		}
+		//friend difference_type operator-(const wrap_iter &a, const wrap_iter &b)
+		//{
+		//	return a.base() - b.base();
+		//}
 
-		friend wrap_iter operator+(difference_type n, wrap_iter x)
-		{
-			x += n;
-			return x;
-		}
+		//friend wrap_iter operator+(difference_type n, wrap_iter x)
+		//{
+		//	x += n;
+		//	return x;
+		//}
 
 	private:
 
 		iterator_type _it;
 
 	};
+
+	template<typename T>
+	inline bool
+	operator==(const wrap_iter<T> &lhs, const wrap_iter<T> &rhs)
+	{
+		return (lhs.base() == rhs.base());
+	}
+
+	template<typename T, typename U>
+	inline bool
+	operator==(const wrap_iter<T> &lhs, const wrap_iter<U> &rhs)
+	{
+		return (lhs.base() == rhs.base());
+	}
+
+	template<typename T>
+	inline bool
+	operator!=(const wrap_iter<T> &lhs, const wrap_iter<T> &rhs)
+	{
+		return (lhs.base() != rhs.base());
+	}
+
+	template<typename T, typename U>
+	inline bool
+	operator!=(const wrap_iter<T> &lhs, const wrap_iter<U> &rhs)
+	{
+		return (lhs.base() != rhs.base());
+	}
+
+	template<typename T>
+	inline bool
+	operator<(const wrap_iter<T> &lhs, const wrap_iter<T> &rhs)
+	{
+		return (lhs.base() < rhs.base());
+	}
+
+	template<typename T, typename U>
+	inline bool
+	operator<(const wrap_iter<T> &lhs, const wrap_iter<U> &rhs)
+	{
+		return (lhs.base() < rhs.base());
+	}
+
+	template<typename T>
+	inline bool
+	operator>(const wrap_iter<T> &lhs, const wrap_iter<T> &rhs)
+	{
+		return (lhs.base() > rhs.base());
+	}
+
+	template<typename T, typename U>
+	inline bool
+	operator>(const wrap_iter<T> &lhs, const wrap_iter<U> &rhs)
+	{
+		return (lhs.base() > rhs.base());
+	}
+
+	template<typename T>
+	inline bool
+	operator<=(const wrap_iter<T> &lhs, const wrap_iter<T> &rhs)
+	{
+		return (lhs.base() <= rhs.base());
+	}
+
+	template<typename T, typename U>
+	inline bool
+	operator<=(const wrap_iter<T> &lhs, const wrap_iter<U> &rhs)
+	{
+		return (lhs.base() <= rhs.base());
+	}
+
+	template<typename T>
+	inline bool
+	operator>=(const wrap_iter<T> &lhs, const wrap_iter<T> &rhs)
+	{
+		return (lhs.base() >= rhs.base());
+	}
+
+	template<typename T, typename U>
+	inline bool
+	operator>=(const wrap_iter<T> &lhs, const wrap_iter<U> &rhs)
+	{
+		return (lhs.base() >= rhs.base());
+	}
+
+	template<typename T>
+	inline wrap_iter<T>
+	operator+(typename wrap_iter<T>::difference_type n, const wrap_iter<T> &it)
+	{
+		return (wrap_iter<T>(it.base() + n));
+	}
+
+	template<typename T, typename U>
+	inline typename wrap_iter<T>::difference_type
+	operator-(const wrap_iter<T> &lhs, const wrap_iter<U> &rhs)
+	{
+		return (lhs.base() - rhs.base());
+	}
+
 }
 
 #endif
