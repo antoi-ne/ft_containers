@@ -35,6 +35,11 @@ namespace ft
 			: _it(x.base())
 		{}
 
+		//template <class U>
+		//wrap_iter(const wrap_iter<U>& it)
+		//	: _it(it.base())
+		//{}
+
 		// destructor
 
 		~wrap_iter()
@@ -49,12 +54,10 @@ namespace ft
 
 		// operators
 
-		wrap_iter & operator=(const wrap_iter & x)
+		template< class U >
+		wrap_iter& operator=( const wrap_iter<U>& other )
 		{
-			if (this != &x)
-			{
-				this->_it = x._it;
-			}
+			this->_it = other._it;
 			return *this;
 		}
 

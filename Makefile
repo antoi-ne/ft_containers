@@ -8,7 +8,7 @@ CXX			= clang++
 
 RM			= rm -f
 
-CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 -I .
+CXXFLAGS	= -pedantic-errors -Wall -Wextra -Werror -std=c++98 -I .
 
 all:		$(NAME)
 

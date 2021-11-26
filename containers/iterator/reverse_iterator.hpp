@@ -40,6 +40,13 @@ namespace ft
 			: _it(rev_it.base())
 		{}
 
+		template< class U >
+		reverse_iterator& operator=( const reverse_iterator<U>& other )
+		{
+			this->_it = other._it;
+			return *this;
+		}
+
 		// member functions
 
 		iterator_type base() const
