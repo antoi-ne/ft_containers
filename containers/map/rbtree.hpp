@@ -43,7 +43,8 @@ namespace ft
 
 			ptr = this->_root;
 			parent = nullptr;
-			while (ptr != nullptr)
+
+			while (ptr != this->_leaf)
 			{
 				parent = ptr;
 				if (new_node->data < parent->data)
@@ -101,6 +102,8 @@ namespace ft
 
 			node = this->_node_alloc.allocate(1);
 			this->_node_alloc.construct(node, rbnode<T>(key));
+			node->left_child = this->_leaf;
+			node->right_child = this->_leaf;
 
 			return node;
 		}
