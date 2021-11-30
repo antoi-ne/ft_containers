@@ -18,6 +18,7 @@ namespace ft
 	{
 
 	public:
+
 		// member types
 
 		typedef T value_type;
@@ -304,26 +305,6 @@ namespace ft
 
 		iterator erase(iterator first, iterator last)
 		{
-
-			//difference_type n = std::distance(first, last);
-
-			//if (first != last)
-			//{
-			//	pointer x = this->begin().base() + first;
-			//	pointer it = this->begin().base();
-			//	difference_type i = first - this->begin();
-			
-
-			//	while (it + i != this->end() - n)
-			//	{
-			//		this->_sequence[i] = this->_sequence[i + n];
-			//		i++;
-			//	}
-			//	while (it + i != this->end())
-			//		this->_alloc.destroy(this->_sequence + i++);
-			//	this->_size -= n;
-			//}
-			//return (this->begin() + n);
 
 			if (first != last)
 			{
