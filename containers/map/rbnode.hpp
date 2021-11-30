@@ -12,19 +12,23 @@ namespace ft
 
 		enum color
 		{
-			RB_ND = 0,
-			RB_RED = 1,
-			RB_BLACK = 2
+			RED = 0,
+			BLACK = 1
 		};
 
-		T * data;
+		T data;
 		rbnode * parent;
 		rbnode * left_child;
 		rbnode * right_child;
 		rbnode::color color;
+		bool is_leaf;
 
-		rbnode(rbnode * parent)
-			: data(nullptr), parent(parent), left_child(nullptr), right_child(nullptr), color(RB_BLACK)
+		rbnode()
+			: data(), parent(nullptr), left_child(nullptr), right_child(nullptr), color(BLACK), is_leaf(true)
+		{}
+
+		rbnode(T key)
+			: data(key), parent(nullptr), left_child(nullptr), right_child(nullptr), color(RED), is_leaf(false)
 		{}
 
 		~rbnode()
