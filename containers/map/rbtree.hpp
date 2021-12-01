@@ -47,7 +47,7 @@ namespace ft
 			while (ptr != this->_leaf)
 			{
 				parent = ptr;
-				if (new_node->data < parent->data)
+				if (this->_compare(new_node->data, ptr->data))
 					ptr = ptr->left_child;
 				else
 					ptr = ptr->right_child;
@@ -56,7 +56,7 @@ namespace ft
 			new_node->parent = parent;
 			if (parent == nullptr)
 				this->_root = new_node;
-			else if (new_node->data < parent->data)
+			else if (this->_compare(new_node->data, parent->data))
 				parent->left_child = new_node;
 			else
 				parent->right_child = new_node;
@@ -115,12 +115,12 @@ namespace ft
 				std::cout << ident;
 				if (last)
 				{
-					std::cout<<"R----";
+					std::cout << "R----";
 					ident += "     ";
 				}
 				else
 				{
-					std::cout<<"L----";
+					std::cout << "L----";
 					ident += "|    ";
 				}
 
@@ -177,7 +177,7 @@ namespace ft
 			{
 				if (node->parent == node->parent->parent->right_child)
 				{
-					uncle = node->parent->left_child;
+					uncle = node->parent->parent->left_child;
 
 					if (uncle->color == rbnode<T>::RED)
 					{
@@ -200,7 +200,7 @@ namespace ft
 				}
 				else
 				{
-					uncle = node->parent->right_child;
+					uncle = node->parent->parent->right_child;
 
 					if (uncle->color == rbnode<T>::RED)
 					{
@@ -227,7 +227,7 @@ namespace ft
 			}
 			this->_root->color = rbnode<T>::BLACK;
 		}
-
+		
 	};
 
 }
