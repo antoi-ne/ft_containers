@@ -63,7 +63,7 @@ namespace ft
 
 			if (new_node->parent == nullptr)
 			{
-				new_node->color = rbnode<T>::BLACK;
+				new_node->color = BLACK;
 				return;
 			}
 
@@ -73,15 +73,75 @@ namespace ft
 			this->_fix_inserted(new_node);
 		}
 
-		//void remove(T key)
-		//{}
+		void remove(T key)
+		{
+			rbnode<T> * node;
+			rbnode<T> * ptr;
+			rbnode<T> * x, * y;
+			rbcolor yc;
 
-		//// accessors
+			node = this->_root;
+			ptr = this->_leaf;
+			
+			while (node != this->_leaf)
+			{
+				if (node->data == key)
+					ptr = node;
+				
+				if (node->data <= key)
+					node = node->right_child;
+				else
+					node = node->left_child;
+			}
 
-		//T & search(T key)
-		//{
+			if (ptr == this->_leaf)
+				return;
 
-		//}
+			y = ptr;
+			yc = y->color;
+			if (ptr->left_child == this->_leaf)
+			{
+				x = ptr->right_child;
+				this->_transplant(ptr, ptr->right_child);
+			}
+			else if (ptr->right_child == this->_leaf)
+			{
+				x = ptr->left_child;
+				this->_transplant(ptr, ptr->left_child);
+			}
+			else
+			{
+				y = this->minimum(ptr->right_child);
+				yc = y->color;
+				x = y->right_child;
+				if (y->parent == ptr)
+					x->parent = y;
+				else
+				{
+					this->_transplant(y, y->right_child);
+					y->right_child = ptr->right_child;
+					y->right_child->parent = y;
+				}
+
+				this->_transplant(ptr, y);
+				y->left_child = ptr->left_child;
+				y->left_child->parent = y;
+				y->color = ptr->color;
+			}
+			delete ptr;
+			if (yc == BLACK)
+				this->_fix_remove(x);
+			
+		}
+
+		// accessors
+
+		rbnode<T> * minimum(rbnode<T> * node)
+		{
+			while (node->left_child != this->_leaf)
+				node = node->left_child;
+			return node;
+		}
 
 		void print()
 		{
@@ -124,7 +184,7 @@ namespace ft
 					ident += "|    ";
 				}
 
-				std::string color_str = node->color == rbnode<T>::RED ? "RED" : "BLACK";
+				std::string color_str = node->color == RED ? "RED" : "BLACK";
 				std::cout << node->data << "(" << color_str << ")" << std::endl;
 				this->_print_helper(node->left_child, ident, false);
 				this->_print_helper(node->right_child, ident, true);
@@ -173,17 +233,17 @@ namespace ft
 		{
 			rbnode<T> * uncle;
 
-			while (node->parent->color == rbnode<T>::RED)
+			while (node->parent->color == RED)
 			{
 				if (node->parent == node->parent->parent->right_child)
 				{
 					uncle = node->parent->parent->left_child;
 
-					if (uncle->color == rbnode<T>::RED)
+					if (uncle->color == RED)
 					{
-						uncle->color = rbnode<T>::BLACK;
-						node->parent->color = rbnode<T>::BLACK;
-						node->parent->parent->color = rbnode<T>::RED;
+						uncle->color = BLACK;
+						node->parent->color = BLACK;
+						node->parent->parent->color = RED;
 						node = node->parent->parent;
 					}
 					else
@@ -193,8 +253,8 @@ namespace ft
 							node = node->parent;
 							_right_rotate(node);
 						}
-						node->parent->color = rbnode<T>::BLACK;
-						node->parent->parent->color = rbnode<T>::RED;
+						node->parent->color = BLACK;
+						node->parent->parent->color = RED;
 						_left_rotate(node->parent->parent);
 					}
 				}
@@ -202,11 +262,11 @@ namespace ft
 				{
 					uncle = node->parent->parent->right_child;
 
-					if (uncle->color == rbnode<T>::RED)
+					if (uncle->color == RED)
 					{
-						uncle->color = rbnode<T>::BLACK;
-						node->parent->color = rbnode<T>::BLACK;
-						node->parent->parent->color = rbnode<T>::RED;
+						uncle->color = BLACK;
+						node->parent->color = BLACK;
+						node->parent->parent->color = RED;
 						node = node->parent->parent;
 					}
 					else
@@ -216,8 +276,8 @@ namespace ft
 							node = node->parent;
 							_left_rotate(node);
 						}
-						node->parent->color = rbnode<T>::BLACK;
-						node->parent->parent->color = rbnode<T>::RED;
+						node->parent->color = BLACK;
+						node->parent->parent->color = RED;
 						_right_rotate(node->parent->parent);
 					}
 				}
@@ -225,9 +285,96 @@ namespace ft
 				if (node == this->_root)
 					break;
 			}
-			this->_root->color = rbnode<T>::BLACK;
+			this->_root->color = BLACK;
 		}
-		
+
+		void _transplant(rbnode<T> * u, rbnode<T> * v)
+		{
+			if (u->parent == nullptr)
+				this->_root = v;
+			else if (u == u->parent->left_child)
+				u->parent->left_child = v;
+			else
+				u->parent->right_child = v;
+			v->parent = u->parent;
+		}
+
+		void _fix_remove(rbnode<T> * node)
+		{
+			rbnode<T> * s;
+
+			while (node != this->_root && node->color == BLACK)
+			{
+				if (node == node->parent->left_child)
+				{
+					s = node->parent->right_child;
+					if (s->color == RED)
+					{
+						s->color = BLACK;
+						node->parent->color = RED;
+						this->_left_rotate(node->parent);
+						s = node->parent->right_child;
+					}
+
+					if (s->left_child->color == BLACK && s->right_child->color == BLACK)
+					{
+						s->color = RED;
+						node = node->parent;
+					}
+					else
+					{
+						if (s->right_child->color == 0)
+						{
+							s->left_child->color = BLACK;
+							s->color = RED;
+							this->_right_rotate(s);
+							s = node->parent->right_child;
+						}
+
+						s->color = node->parent->color;
+						node->parent->color = BLACK;
+						s->right_child->color = BLACK;
+						this->_left_rotate(node->parent);
+						node = this->_root;
+					}
+				}
+				else
+				{
+					s = node->parent->left_child;
+					if (s->color == RED)
+					{
+						s->color = BLACK;
+						node->parent->color = RED;
+						this->_right_rotate(node->parent);
+						s = node->parent->left_child;
+					}
+
+					if (s->right_child->color == BLACK && s->right_child->color == BLACK)
+					{
+						s->color = RED;
+						node = node->parent;
+					}
+					else
+					{
+						if (s->left_child->color == BLACK)
+						{
+							s->right_child->color = BLACK;
+							s->color = RED;
+							this->_left_rotate(s);
+							s = node->parent->left_child;
+						}
+
+						s->color = node->parent->color;
+						node->parent->color = BLACK;
+						s->left_child->color = BLACK;
+						this->_right_rotate(node->parent);
+						node = this->_root;
+					}
+				}
+			}
+			node->color = BLACK;
+		}
+
 	};
 
 }

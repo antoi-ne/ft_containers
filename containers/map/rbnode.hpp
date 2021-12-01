@@ -4,23 +4,23 @@
 namespace ft
 {
 
+	enum rbcolor
+	{
+			RED,
+			BLACK
+	};
+
 	template <class T>
 	class rbnode
 	{
 
 	public:
 
-		enum color
-		{
-			RED = 0,
-			BLACK = 1
-		};
-
 		T data;
 		rbnode * parent;
 		rbnode * left_child;
 		rbnode * right_child;
-		rbnode::color color;
+		rbcolor color;
 		bool is_leaf;
 
 		rbnode()
