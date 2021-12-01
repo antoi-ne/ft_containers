@@ -53,7 +53,25 @@ namespace ft
 
 		const T& at(const Key& key) const;
 
-		
+		T& operator[](const Key& key);
+
+		// capacity
+
+		bool empty() const;
+
+		size_type size() const;
+
+		size_type max_size() const;
+
+		// modifiers
+
+		void clear();
+
+		void swap(map& other);
+	
+	private:
+
+		rbtree<value_type, key_compare, allocator_type> _tree;
 
 	};
 
