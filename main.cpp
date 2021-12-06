@@ -21,5 +21,6 @@ int main(void)
 	bst.insert(25);
 	bst.insert(40);
 	bst.insert(80);
+	bst.remove(25);
 	bst.print();
 }

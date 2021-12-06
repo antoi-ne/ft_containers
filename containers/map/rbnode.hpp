@@ -34,6 +34,11 @@ namespace ft
 		~rbnode()
 		{}
 
+		bool isLeaf()
+		{
+			return this->is_leaf;
+		}
+
 	};
 
 }
