@@ -152,7 +152,29 @@ namespace ft
 		{
 			if (ptr->is_leaf())
 			{
-
+				if (!this->_root->is_leaf())
+				{
+					while (ptr->right_child && !ptr->right_child->is_leaf())
+						ptr = ptr->right_child;
+				}
+			}
+			else if (ptr->left_child && !ptr->left_child->is_leaf())
+			{
+				while (ptr->right_child && !ptr->right_child->is_leaf())
+					ptr = ptr->right_child;
+			}
+			else
+			{
+				rbnode<T> * leaf = ptr->left_child;
+				rbnode<T> * p = ptr->parent;
+				while (p && !p->is_leaf() && ptr == p->left_child)
+				{
+					ptr = p;
+					p = p->parent;
+				}
+				ptr = p;
+				if (ptr == nullptr)
+					return leaf;
 			}
 			return ptr;
 		}
@@ -160,6 +182,5 @@ namespace ft
 	};
 
 }
-
 
 #endif
