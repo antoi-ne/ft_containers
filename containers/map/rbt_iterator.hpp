@@ -142,7 +142,7 @@ namespace ft
 					p = p->parent;
 				}
 				ptr = p;
-				if (cursor == nullptr)
+				if (ptr == nullptr)
 					return leaf;
 			}
 			return ptr;
@@ -152,7 +152,7 @@ namespace ft
 		{
 			if (ptr->is_leaf())
 			{
-				
+
 			}
 			return ptr;
 		}
