@@ -69,7 +69,10 @@ namespace ft
 			: _alloc(alloc), _comp(comp), _tree()
 		{}
 
-		map(const map& other);
+		map(const map& other)
+		{
+			*this = other;
+		}
 
 		// destructor
 
@@ -179,7 +182,10 @@ namespace ft
 			return this->_comp;
 		}
 	
-		ft::map::value_compare value_comp() const;
+		ft::map::value_compare value_comp() const
+		{
+			return value_compare(this->_comp);
+		}
 	
 	private:
 

@@ -170,6 +170,25 @@ namespace ft
 			return node;
 		}
 
+		rbnode<T> * maximum(rbnode<T> * node)
+		{
+			while (node->right_child != this->_leaf)
+				node = node->right_child;
+			return node;
+		}
+
+		rbnode<T> * begin_node() const
+		{
+			if (this->_root && this->_root != this->_leaf)
+				return (this->minimum(this->_root));
+			return this->_leaf;
+		}
+		
+		rbnode<T> * end_node() const
+		{
+			return this->_leaf;
+		}
+
 		void print()
 		{
 			this->_print_helper(this->_root, "", true);
