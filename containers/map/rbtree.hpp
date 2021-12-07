@@ -26,10 +26,37 @@ namespace ft
 			this->_root = this->_leaf;
 		}
 
+		rbtree(const Compare& comp = Compare(), const Alloc& alloc = Alloc())
+			: _alloc(alloc), _compare(comp)
+		{
+			this->_leaf = this->_node_alloc.allocate(1);
+			this->_node_alloc.construct(this->_leaf, rbnode<T>());
+			this->_root = this->_leaf;
+		}
+
+		rbtree(const rbtree& other)
+		{
+			*this = other;
+		}
+
 		// destructors
 
 		~rbtree()
 		{}
+
+		// assignation operator
+		rbtree& operator=(const rbtree& other)
+		{
+			if (this != &other)
+			{
+				this->_node_alloc = other._node_alloc;
+				this->_leaf = other._leaf;
+				this->_root = other._root;
+				this->_alloc = other._alloc;
+				this->_compare = other._compare;
+			}
+			return *this;
+		}
 
 		// modifiers
 

@@ -56,9 +56,13 @@ namespace ft
 
 		// constructors
 
-		map();
+		map()
+			: _tree()
+		{}
 		
-		explicit map(const Compare& comp, const Allocator& alloc = Allocator());
+		explicit map(const Compare& comp, const Allocator& alloc = Allocator())
+			: _tree()
+		{}
 
 		template< class InputIt >
 		map(InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator());
@@ -67,11 +71,12 @@ namespace ft
 
 		// destructor
 
-		~map();
+		~map()
+		{}
 
 		// assignationn operator
 
-		map& operator=( const map& other );
+		map& operator=(const map& other);
 
 		// allocator
 
@@ -182,8 +187,6 @@ namespace ft
 
 	template<class Key, class T, class Compare, class Alloc>
 	void swap(ft::map<Key,T,Compare,Alloc>& lhs, ft::map<Key,T,Compare,Alloc>& rhs);
-
-	
 
 }
 
