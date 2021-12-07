@@ -57,15 +57,17 @@ namespace ft
 		// constructors
 
 		map()
-			: _tree()
+			: _alloc(), _comp(), _tree()
 		{}
 		
 		explicit map(const Compare& comp, const Allocator& alloc = Allocator())
-			: _tree()
+			: _alloc(alloc), _comp(comp), _tree()
 		{}
 
 		template< class InputIt >
-		map(InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator());
+		map(InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator())
+			: _alloc(alloc), _comp(comp), _tree()
+		{}
 
 		map(const map& other);
 
@@ -76,11 +78,23 @@ namespace ft
 
 		// assignationn operator
 
-		map& operator=(const map& other);
+		map& operator=(const map& other)
+		{
+			if (*this != other)
+			{
+				this->_alloc = other._alloc;
+				this->_comp = other._comp;
+				this->_tree = other._tree;
+			}
+			return *this;
+		}
 
 		// allocator
 
-		allocator_type get_allocator() const;
+		allocator_type get_allocator() const
+		{
+			return this->_alloc;
+		}
 
 		// element access
 
@@ -114,7 +128,10 @@ namespace ft
 
 		size_type size() const;
 
-		size_type max_size() const;
+		size_type max_size() const
+		{
+			return this->_alloc.max_size();
+		}
 
 		// modifiers
 
@@ -157,12 +174,17 @@ namespace ft
 
 		// observers
 
-		key_compare key_comp() const;
+		key_compare key_comp() const
+		{
+			return this->_comp;
+		}
 	
 		ft::map::value_compare value_comp() const;
 	
 	private:
 
+		allocator_type _alloc;
+		key_compare _comp;
 		rbtree<value_type, key_compare, allocator_type> _tree;
 
 	};
