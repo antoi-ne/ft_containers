@@ -18,14 +18,6 @@ namespace ft
 
 		// constructors
 
-		rbtree()
-			: _alloc(), _compare()
-		{
-			this->_leaf = this->_node_alloc.allocate(1);
-			this->_node_alloc.construct(this->_leaf, rbnode<T>());
-			this->_root = this->_leaf;
-		}
-
 		rbtree(const Compare& comp = Compare(), const Alloc& alloc = Alloc())
 			: _alloc(alloc), _compare(comp)
 		{

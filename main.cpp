@@ -8,10 +8,11 @@
 #include "containers/iterator/reverse_iterator.hpp"
 #include "containers/vector/vector.hpp"
 #include "containers/map/rbtree.hpp"
+#include "containers/map/map.hpp"
 
 int main(void)
 {
-	ft::rbtree<int> bst;
+	ft::rbtree<int> bst = ft::rbtree<int>();
 
 	bst.insert(8);
 	bst.insert(18);

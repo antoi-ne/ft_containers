@@ -16,14 +16,12 @@ namespace ft
 	public:
 
 		// member types
-
-		// useless because we inherit from ft::iterator
 		
-		// typedef typename ft::iterator_traits<T>::difference_type difference_type;
-		// typedef typename ft::iterator_traits<T>::value_type value_type;
-		// typedef typename ft::iterator_traits<T>::pointer pointer;
-		// typedef typename ft::iterator_traits<T>::reference reference;
-		// typedef std::bidirectional_iterator_tag iterator_category;
+		typedef typename ft::iterator_traits<T>::difference_type difference_type;
+		typedef typename ft::iterator_traits<T>::value_type value_type;
+		typedef typename ft::iterator_traits<T>::pointer pointer;
+		typedef typename ft::iterator_traits<T>::reference reference;
+		typedef std::bidirectional_iterator_tag iterator_category;
 
 		// constructors
 
@@ -92,32 +90,32 @@ namespace ft
 
 		// nom-member operators overloads
 
-		friend bool operator!= (const TreeIterator& a, const TreeIterator& b)
+		friend bool operator!= (const rbt_iterator& a, const rbt_iterator& b)
 		{
 			return (a._ptr != b._ptr);
 		}
 
-		friend bool operator== (const TreeIterator& a, const TreeIterator& b)
+		friend bool operator== (const rbt_iterator& a, const rbt_iterator& b)
 		{
 			return (a._ptr == b._ptr);
 		}
 
-		friend bool operator<= (const TreeIterator& a, const TreeIterator& b)
+		friend bool operator<= (const rbt_iterator& a, const rbt_iterator& b)
 		{
 			return (a._ptr <= b._ptr);
 		}
 
-		friend bool operator>= (const TreeIterator& a, const TreeIterator& b)
+		friend bool operator>= (const rbt_iterator& a, const rbt_iterator& b)
 		{
 			return (a._ptr >= b._ptr);
 		}
 
-		friend bool operator< (const TreeIterator& a, const TreeIterator& b)
+		friend bool operator< (const rbt_iterator& a, const rbt_iterator& b)
 		{
 			return (a.getNode() < b.getNode()); 
 		}
 
-		friend bool operator> (const TreeIterator& a, const TreeIterator& b)
+		friend bool operator> (const rbt_iterator& a, const rbt_iterator& b)
 		{
 			return (a._ptr > b._ptr); 
 		}
