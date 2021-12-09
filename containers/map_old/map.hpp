@@ -2,14 +2,13 @@
 #define FT_MAP_HPP
 
 #include <functional>
+#include "rbtree.hpp"
 #include "pair.hpp"
+#include "rbt_iterator.hpp"
 #include "../iterator/reverse_iterator.hpp"
-#include <map>
 
 namespace ft
 {
-
-
 
 	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator< ft::pair<const Key, T> > >
 	class map
@@ -42,9 +41,9 @@ namespace ft
 
 		protected:
 
-			key_compare comp;
+			Compare comp;
 
-			value_compare(key_compare c)
+			value_compare(Compare c)
 				: comp(c)
 			{}
 
