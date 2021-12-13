@@ -4,7 +4,8 @@
 #include <functional>
 #include "pair.hpp"
 #include "../iterator/reverse_iterator.hpp"
-#include <map>
+#include "_tree.hpp"
+#include "map_iterator.hpp"
 
 namespace ft
 {
@@ -30,8 +31,8 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef typename ft::rbt_iterator<value_type> iterator;
-		typedef typename ft::rbt_iterator<const value_type> const_iterator;
+		typedef typename ft::map_iterator<value_type> iterator;
+		typedef typename ft::map_iterator<const value_type> const_iterator;
 		typedef typename ft::reverse_iterator<iterator> reverse_iterator;
 		typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -192,7 +193,7 @@ namespace ft
 
 		allocator_type _alloc;
 		key_compare _comp;
-		rbtree<value_type, key_compare, allocator_type> _tree;
+		_tree<value_type, key_compare, allocator_type> _tree;
 
 	};
 
