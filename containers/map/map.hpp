@@ -49,26 +49,24 @@ namespace ft
 				: comp(c)
 			{}
 
+		public:
+
 			bool operator()(const value_type& lhs, const value_type& rhs) const
 			{
-				return comp(lhs.first, rhs.first);
+				return this->comp(lhs.first, rhs.first);
 			}
 
 		};
 
 		// constructors
-
-		map()
-			: _alloc(), _comp(), _tree()
-		{}
 		
-		explicit map(const Compare& comp, const Allocator& alloc = Allocator())
-			: _alloc(alloc), _comp(comp), _tree()
+		explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
+			: _alloc(alloc), _comp(comp), _tree(value_compare(comp), alloc)
 		{}
 
 		template< class InputIt >
 		map(InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator())
-			: _alloc(alloc), _comp(comp), _tree()
+			: _alloc(alloc), _comp(comp), _tree(value_compare(comp), alloc)
 		{}
 
 		map(const map& other)
@@ -129,9 +127,15 @@ namespace ft
 
 		// capacity
 
-		bool empty() const;
+		bool empty() const
+		{
+			return this->_tree.size() == 0;
+		}
 
-		size_type size() const;
+		size_type size() const
+		{
+			return this->_tree.size();
+		}
 
 		size_type max_size() const
 		{
@@ -193,7 +197,7 @@ namespace ft
 
 		allocator_type _alloc;
 		key_compare _comp;
-		_tree<value_type, key_compare, allocator_type> _tree;
+		_tree<value_type, value_compare, allocator_type> _tree;
 
 	};
 

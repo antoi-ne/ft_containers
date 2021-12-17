@@ -51,8 +51,8 @@ namespace ft
 
 		// constructors
 
-		_tree()
-			: _comp(), _alloc(), _root(nullptr)
+		_tree(value_compare comp)
+			: _comp(comp), _alloc(), _root(nullptr)
 		{}
 
 		// destructors
@@ -61,6 +61,11 @@ namespace ft
 		{}
 
 		// accessors
+
+		size_t size() const
+		{
+			return this->_sizeNode(this->_root);
+		}
 
 		node_type * search(value_type key)
 		{
@@ -138,7 +143,7 @@ namespace ft
 		{
 			if (this->_root == nullptr)
 				return nullptr;
-			if (this->_comp(key.first, node->value.first))
+			if (this->_comp(key, node->value))
 				return this->_searchTree(node->left, key);
 			else
 				return this->_searchTree(node->right, key);
@@ -148,9 +153,9 @@ namespace ft
 		{
 			if (node == nullptr)
 				return node;
-			else if (this->_comp(key.first, node->value.first))
+			else if (this->_comp(key, node->value))
 				node->left = this->_eraseNode(node->left, key);
-			else if (this->_comp(node->value.first, key.first))
+			else if (this->_comp(node->value, key))
 				node->right = this->_eraseNode(node->right, key);
 			else
 			{
@@ -181,6 +186,17 @@ namespace ft
 				}
 			}
 			return node;
+		}
+
+		size_t _sizeNode(node_type * node) const
+		{
+			size_t s = 0;
+			if (node != nullptr)
+			{
+				s += this->_sizeNode(node->left);
+				s += this->_sizeNode(node->right);
+			}
+			return s;
 		}
 
 	};
