@@ -127,13 +127,13 @@ namespace ft
 
 		node_type * _forward(node_type * ptr)
 		{
-			// TODO
+			
 			return ptr;
 		}
 
 		node_type * _backward(node_type * ptr)
 		{
-			// TODO
+			
 			return ptr;
 		}
 

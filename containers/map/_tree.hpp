@@ -16,9 +16,14 @@ namespace ft
 		_node * right;
 		_node * left;
 		_node * parent;
+		bool leaf;
+
+		_node()
+			: value(), right(nullptr), left(nullptr), parent(nullptr), leaf(true)
+		{}
 
 		_node(value_type value)
-			: value(value), right(nullptr), left(nullptr), parent(nullptr)
+			: value(value), right(nullptr), left(nullptr), parent(nullptr), leaf(false)
 		{}
 
 		~_node()
@@ -52,7 +57,7 @@ namespace ft
 		// constructors
 
 		_tree(value_compare comp)
-			: _comp(comp), _alloc(), _root(nullptr)
+			: _comp(comp), _alloc(), _root(nullptr), _leaf()
 		{}
 
 		// destructors
@@ -142,6 +147,7 @@ namespace ft
 		allocator_type _alloc;
 		typename allocator_type::template rebind<node_type>::other _node_alloc;
 		node_type * _root;
+		node_type * _leaf;
 
 		node_type * _minimum(node_type * node) const
 		{
