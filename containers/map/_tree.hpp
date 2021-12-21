@@ -67,17 +67,17 @@ namespace ft
 			return this->_sizeNode(this->_root);
 		}
 
-		node_type * search(value_type key)
+		node_type * search(value_type key) const
 		{
 			return this->_searchTree(this->_root, key);
 		}
 
-		node_type * minimum()
+		node_type * minimum() const
 		{
 			return this->_minimum(this->_root);
 		}
 
-		node_type * maximum()
+		node_type * maximum() const
 		{
 			return this->_maximum(this->_root);
 		}
@@ -125,21 +125,21 @@ namespace ft
 		typename allocator_type::template rebind<node_type>::other _node_alloc;
 		node_type * _root;
 
-		node_type * _minimum(node_type * node)
+		node_type * _minimum(node_type * node) const
 		{
 			while (node->left)
 				node = node->left
 			return node;
 		}
 
-		node_type * _maximum(node_type * node)
+		node_type * _maximum(node_type * node) const
 		{
 			while (node->right)
 				node = node->right
 			return node;
 		}
 
-		node_type * _searchTree(node_type * node, value_type key)
+		node_type * _searchTree(node_type * node, value_type key) const
 		{
 			if (this->_root == nullptr)
 				return nullptr;

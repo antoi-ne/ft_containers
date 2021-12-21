@@ -101,11 +101,20 @@ namespace ft
 
 		// element access
 
-		T& at(const Key& key);
+		T& at(const Key& key)
+		{
+			return this->_tree.search(key);
+		}
 
-		const T& at(const Key& key) const;
+		const T& at(const Key& key) const
+		{
+			return this->_tree.search(key);
+		}
 
-		T& operator[](const Key& key);
+		T& operator[](const Key& key)
+		{
+			return this->_tree.search(key);
+		}
 
 		// iterators
 
@@ -163,7 +172,10 @@ namespace ft
 
 		// lookup
 
-		size_type count(const Key& key) const;
+		size_type count(const Key& key) const
+		{
+			return (this->_tree.search(key) == nullptr) ? 0 : 1;
+		}
 
 		iterator find(const Key& key);
 
