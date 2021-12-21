@@ -90,34 +90,34 @@ namespace ft
 
 		// nom-member operators overloads
 
-		friend bool operator!= (const map_iterator& a, const map_iterator& b)
+		friend bool operator!=(const map_iterator& a, const map_iterator& b)
 		{
-			return (a._ptr != b._ptr);
+			return (a._ptr.value != b._ptr.value);
 		}
 
-		friend bool operator== (const map_iterator& a, const map_iterator& b)
+		friend bool operator==(const map_iterator& a, const map_iterator& b)
 		{
-			return (a._ptr == b._ptr);
+			return (a._ptr.value == b._ptr.value);
 		}
 
-		friend bool operator<= (const map_iterator& a, const map_iterator& b)
+		friend bool operator<=(const map_iterator& a, const map_iterator& b)
 		{
-			return (a._ptr <= b._ptr);
+			return (a._ptr.value <= b._ptr.value);
 		}
 
-		friend bool operator>= (const map_iterator& a, const map_iterator& b)
+		friend bool operator>=(const map_iterator& a, const map_iterator& b)
 		{
-			return (a._ptr >= b._ptr);
+			return (a._ptr.value >= b._ptr.value);
 		}
 
-		friend bool operator< (const map_iterator& a, const map_iterator& b)
+		friend bool operator<(const map_iterator& a, const map_iterator& b)
 		{
-			return (a.getNode() < b.getNode()); 
+			return (a._ptr.value < b._ptr.value);
 		}
 
-		friend bool operator> (const map_iterator& a, const map_iterator& b)
+		friend bool operator>(const map_iterator& a, const map_iterator& b)
 		{
-			return (a._ptr > b._ptr); 
+			return (a._ptr.value > b._ptr.value);
 		}
 
 	private:
@@ -127,10 +127,14 @@ namespace ft
 
 		node_type * _forward(node_type * ptr)
 		{
+			// TODO
+			return ptr;
 		}
 
 		node_type * _backward(node_type * ptr)
 		{
+			// TODO
+			return ptr;
 		}
 
 	};

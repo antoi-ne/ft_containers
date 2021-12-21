@@ -82,6 +82,24 @@ namespace ft
 			return this->_maximum(this->_root);
 		}
 
+		node_type * begin_node() const
+		{
+			if (this->_root != nullptr)
+				return this->minimum();
+			else
+				return nullptr;
+		}
+
+		node_type * end_node() const
+		{
+			return nullptr;
+		}
+
+		node_type * root_node()
+		{
+			return this->_root;
+		}
+
 		// modifiers
 
 		node_type * insert(value_type key)

@@ -118,21 +118,45 @@ namespace ft
 
 		// iterators
 
-		iterator begin();
+		iterator begin()
+		{
+			return iterator(this->_tree.begin_node(), this->_tree.root_node());
+		}
 
-		const_iterator begin() const;
+		const_iterator begin() const
+		{
+			return const_iterator(this->_tree.begin_node(), this->_tree.root_node());
+		}
 
-		iterator end();
+		iterator end()
+		{
+			return iterator(this->_tree.end_node(), this->_tree.root_node());
+		}
 
-		const_iterator end() const;
+		const_iterator end() const
+		{
+			return const_iterator(this->_tree.begin_node(), this->_tree.root_node());
+		}
 
-		reverse_iterator rbegin();
+		reverse_iterator rbegin()
+		{
+			return reverse_iterator(this->begin());
+		}
 
-		const_reverse_iterator rbegin() const;
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(this->begin());
+		}
 
 		reverse_iterator rend();
+		{
+			return reverse_iterator(this->end());
+		}
 
-		const_reverse_iterator rend() const;
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(this->end());
+		}
 
 		// capacity
 
