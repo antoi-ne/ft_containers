@@ -128,13 +128,59 @@ namespace ft
 		node_type * _forward(node_type * ptr)
 		{
 			
-			return ptr;
+			if (this->_ptr->right)
+			{
+				this->_ptr = this->_ptr->right;
+				while (this->_ptr->left)
+				{
+					this->_ptr = this->_ptr->left;
+				}
+				return this->_ptr;
+			}
+			else
+			{
+				node_type *n = this->_ptr;
+				this->_ptr = n->_parent;
+				while (this->_ptr->left != n)
+				{
+					n = this->_ptr;
+					this->_ptr = this->_ptr->parent;
+				}
+				return this->_ptr;
+			}
 		}
 
 		node_type * _backward(node_type * ptr)
 		{
-			
-			return ptr;
+			if (this->_ptr)
+				{
+					if (this->_ptr->left)
+					{
+						this->_ptr = this->_ptr->left;
+						while (this->_ptr && this->_ptr->right)
+						{
+							this->_ptr = this->_ptr->right;
+						}
+					}
+					else
+					{
+						node_type *n = this->_ptr;
+						while (this->_ptr && this->_ptr->right != n)
+						{
+							n = this->_ptr;
+							this->_ptr = this->_ptr->parent;
+						}
+					}
+				}
+				else
+				{
+					this->_ptr = this->_root;
+					while (this->_ptr && this->_ptr->right)
+					{
+						this->_ptr = this->_ptr->right;
+					}
+				}
+				return this->_ptr;
 		}
 
 	};
