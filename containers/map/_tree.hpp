@@ -36,7 +36,7 @@ namespace ft
 		_node<Type> * node;
 
 		node = alloc.allocate(1);
-		alloc.construct(node, _node(value));
+		alloc.construct(node, _node<Type>(value));
 		return node;
 	}
 
@@ -56,8 +56,8 @@ namespace ft
 
 		// constructors
 
-		_tree(value_compare comp)
-			: _comp(comp), _alloc(), _root(nullptr), _leaf()
+		_tree(value_compare comp, allocator_type alloc)
+			: _comp(comp), _alloc(alloc), _root(nullptr), _leaf()
 		{}
 
 		// destructors
@@ -109,7 +109,7 @@ namespace ft
 
 		node_type * insert(value_type key)
 		{
-			node_type * node = this->search(key)
+			node_type * node = this->search(key);
 			if (node != nullptr)
 				return node;
 
@@ -119,7 +119,7 @@ namespace ft
 
 			while (cursor != nullptr)
 			{
-				parent = cursor
+				parent = cursor;
 				if (this->_comp(node->value, cursor->value))
 					cursor = cursor->left;
 				else
@@ -152,14 +152,14 @@ namespace ft
 		node_type * _minimum(node_type * node) const
 		{
 			while (node->left)
-				node = node->left
+				node = node->left;
 			return node;
 		}
 
 		node_type * _maximum(node_type * node) const
 		{
 			while (node->right)
-				node = node->right
+				node = node->right;
 			return node;
 		}
 

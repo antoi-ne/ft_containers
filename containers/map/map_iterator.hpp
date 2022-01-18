@@ -2,8 +2,8 @@
 #define FT_MAP_ITERATOR_HPP
 
 #include <iterator>
-#include <map.hpp>
-#include <_tree.hpp>
+#include "map.hpp"
+#include "_tree.hpp"
 
 namespace ft
 {
@@ -128,59 +128,59 @@ namespace ft
 		node_type * _forward(node_type * ptr)
 		{
 			
-			if (this->_ptr->right)
+			if (ptr->right)
 			{
-				this->_ptr = this->_ptr->right;
-				while (this->_ptr->left)
+				ptr = ptr->right;
+				while (ptr->left)
 				{
-					this->_ptr = this->_ptr->left;
+					ptr = ptr->left;
 				}
-				return this->_ptr;
+				return ptr;
 			}
 			else
 			{
-				node_type *n = this->_ptr;
-				this->_ptr = n->_parent;
-				while (this->_ptr->left != n)
+				node_type *n = ptr;
+				ptr = n->_parent;
+				while (ptr->left != n)
 				{
-					n = this->_ptr;
-					this->_ptr = this->_ptr->parent;
+					n = ptr;
+					ptr = ptr->parent;
 				}
-				return this->_ptr;
+				return ptr;
 			}
 		}
 
 		node_type * _backward(node_type * ptr)
 		{
-			if (this->_ptr)
+			if (ptr)
 				{
-					if (this->_ptr->left)
+					if (ptr->left)
 					{
-						this->_ptr = this->_ptr->left;
-						while (this->_ptr && this->_ptr->right)
+						ptr = ptr->left;
+						while (ptr && ptr->right)
 						{
-							this->_ptr = this->_ptr->right;
+							ptr = ptr->right;
 						}
 					}
 					else
 					{
-						node_type *n = this->_ptr;
-						while (this->_ptr && this->_ptr->right != n)
+						node_type *n = ptr;
+						while (ptr && ptr->right != n)
 						{
-							n = this->_ptr;
-							this->_ptr = this->_ptr->parent;
+							n = ptr;
+							ptr = ptr->parent;
 						}
 					}
 				}
 				else
 				{
-					this->_ptr = this->_root;
-					while (this->_ptr && this->_ptr->right)
+					ptr = this->_root;
+					while (ptr && ptr->right)
 					{
-						this->_ptr = this->_ptr->right;
+						ptr = ptr->right;
 					}
 				}
-				return this->_ptr;
+				return ptr;
 		}
 
 	};

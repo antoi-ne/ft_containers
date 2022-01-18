@@ -2,24 +2,30 @@
 
 #include <vector>
 #include <map>
-//#include <iterator>
 #include <iterator>
+#include <chrono>
+#include <memory>
+
 
 #include "containers/iterator/wrap_iter.hpp"
 #include "containers/iterator/reverse_iterator.hpp"
 #include "containers/vector/vector.hpp"
-#include <chrono>
+#include "containers/map_new/tree.hpp"
 
 
 int main(void)
 {
-	std::map<int, int> x;
+	ft::tree<int, std::less<int>, std::allocator<int> > rbt;
 
-	// x.insert(std::make_pair(42, 420));
-	// x.insert(std::make_pair(1, 10));
-	// x.insert(std::make_pair(27, 270));
-	// x.insert(std::make_pair(19, 190));
+	rbt.insert(8);
+	rbt.insert(18);
+	rbt.insert(5);
+	rbt.insert(15);
+	rbt.insert(17);
+	rbt.insert(25);
+	rbt.insert(40);
+	rbt.insert(80);
+	rbt.deleteNode(25);
+	rbt.prettyPrint();
 
-	std::map<int, int>::iterator it = x.end();
-	std::cout << (it == x.begin()) << std::endl;
 }

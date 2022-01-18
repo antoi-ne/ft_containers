@@ -45,11 +45,11 @@ namespace ft
 
 			key_compare comp;
 
+		public:
+
 			value_compare(key_compare c)
 				: comp(c)
 			{}
-
-		public:
 
 			bool operator()(const value_type& lhs, const value_type& rhs) const
 			{
@@ -67,7 +67,10 @@ namespace ft
 		template< class InputIt >
 		map(InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator())
 			: _alloc(alloc), _comp(comp), _tree(value_compare(comp), alloc)
-		{}
+		{
+			(void)first;
+			(void)last;
+		}
 
 		map(const map& other)
 		{
@@ -148,7 +151,7 @@ namespace ft
 			return const_reverse_iterator(this->begin());
 		}
 
-		reverse_iterator rend();
+		reverse_iterator rend()
 		{
 			return reverse_iterator(this->end());
 		}
