@@ -15,6 +15,7 @@
 
 int main(void)
 {
+
 	ft::tree<int, std::less<int>, std::allocator<int> > rbt;
 
 	rbt.insert(8);
