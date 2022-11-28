@@ -6,17 +6,13 @@
 #include <chrono>
 #include <memory>
 
-
-#include "containers/iterator/wrap_iter.hpp"
-#include "containers/iterator/reverse_iterator.hpp"
-#include "containers/vector/vector.hpp"
-#include "containers/map_new/tree.hpp"
-
+#include "containers/map2/_rbtree.hpp"
+#include "containers/map2/map.hpp"
 
 int main(void)
 {
 
-	ft::tree<int, std::less<int>, std::allocator<int> > rbt;
+    ft::_rbtree<int> rbt;
 
 	rbt.insert(8);
 	rbt.insert(18);
@@ -26,7 +22,5 @@ int main(void)
 	rbt.insert(25);
 	rbt.insert(40);
 	rbt.insert(80);
-	rbt.deleteNode(25);
 	rbt.prettyPrint();
-
 }

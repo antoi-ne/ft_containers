@@ -1,6 +1,6 @@
 NAME		= tester
 
-SRCS		= main2.cpp
+SRCS		= main.cpp
 
 OBJS		= $(SRCS:.cpp=.o)
 
