@@ -1,3 +1,4 @@
 *.[ao]
 /tester
 *.dSYM/
+a.out
