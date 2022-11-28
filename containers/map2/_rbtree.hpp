@@ -44,7 +44,7 @@ namespace ft {
         _node_type                                                   *_root;
         _node_type                                                   *_leaf;
 
-    public: // contructor const
+    public: // contructors & destructors
 
         _rbtree(value_compare comp = value_compare(), allocator_type alloc = allocator_type())
             : _comp(comp), _alloc(alloc)
@@ -56,6 +56,54 @@ namespace ft {
 
         ~_rbtree()
         {}
+
+    public: // methods
+
+        void prettyPrint() {
+            if (this->_root)
+                this->printHelper(this->_root, "", true);
+        }
+
+        void insert(value_type value)
+        {
+            _node_type *n = this->_make_node();
+            n->data = value;
+            n->color = _node_type::RED;
+            n->parent = NULL;
+            n->left = this->_leaf;
+            n->right = this->_leaf;
+
+            _node_type *y = NULL;
+            _node_type *x = this->_root;
+
+            while (x != this->_leaf)
+            {
+                y = x;
+                if (this->_comp(n->data, x->data))
+                    x = x->left;
+                else
+                    x = x->right;
+            }
+
+            n->parent = y;
+            if (y == NULL)
+                this->_root = n;
+            else if (this->_comp(n->data, y->data))
+                y->left = n;
+            else
+                y->right = n;
+
+            if (n->parent == NULL)
+            {
+                n->color = _node_type::BLACK;
+                return;
+            }
+
+            if (n->parent->parent == NULL)
+                return;
+
+            this->_fix_insert(n);
+        }
 
     private: // helpers
 
@@ -175,53 +223,6 @@ namespace ft {
             this->_root->color = _node_type::BLACK;
         }
 
-    public:
-
-        void prettyPrint() {
-            if (this->_root)
-                this->printHelper(this->_root, "", true);
-        }
-
-        void insert(value_type value)
-        {
-            _node_type *n = this->_make_node();
-            n->data = value;
-            n->color = _node_type::RED;
-            n->parent = NULL;
-            n->left = this->_leaf;
-            n->right = this->_leaf;
-
-            _node_type *y = NULL;
-            _node_type *x = this->_root;
-
-            while (x != this->_leaf)
-            {
-                y = x;
-                if (this->_comp(n->data, x->data))
-                    x = x->left;
-                else
-                    x = x->right;
-            }
-
-            n->parent = y;
-            if (y == NULL)
-                this->_root = n;
-            else if (this->_comp(n->data, y->data))
-                y->left = n;
-            else
-                y->right = n;
-
-            if (n->parent == NULL)
-            {
-                n->color = _node_type::BLACK;
-                return;
-            }
-
-            if (n->parent->parent == NULL)
-                return;
-
-            this->_fix_insert(n);
-        }
     };
 
 };
