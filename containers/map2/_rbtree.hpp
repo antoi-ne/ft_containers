@@ -33,16 +33,16 @@ namespace ft {
         typedef Compare             value_compare;
         typedef Allocator           allocator_type;
 
-    private: // attributes
+        typedef _node<value_type>   node_type;
 
-        typedef _node<value_type>                                   _node_type;
+    private: // attributes
 
         value_compare                                               _comp;
         allocator_type                                              _alloc;
-        typename allocator_type::template rebind<_node_type>::other _node_alloc;
+        typename allocator_type::template rebind<node_type>::other _node_alloc;
 
-        _node_type                                                   *_root;
-        _node_type                                                   *_leaf;
+        node_type                                                   *_root;
+        node_type                                                   *_leaf;
 
     public: // contructors & destructors
 
@@ -50,7 +50,7 @@ namespace ft {
             : _comp(comp), _alloc(alloc)
         {
             this->_leaf = this->_make_node();
-            this->_leaf->color = _node_type::LEAF;
+            this->_leaf->color = node_type::LEAF;
             this->_root = this->_leaf;
         }
 
@@ -66,15 +66,15 @@ namespace ft {
 
         void insert(value_type value)
         {
-            _node_type *n = this->_make_node();
+            node_type *n = this->_make_node();
             n->data = value;
-            n->color = _node_type::RED;
+            n->color = node_type::RED;
             n->parent = NULL;
             n->left = this->_leaf;
             n->right = this->_leaf;
 
-            _node_type *y = NULL;
-            _node_type *x = this->_root;
+            node_type *y = NULL;
+            node_type *x = this->_root;
 
             while (x != this->_leaf)
             {
@@ -95,7 +95,7 @@ namespace ft {
 
             if (n->parent == NULL)
             {
-                n->color = _node_type::BLACK;
+                n->color = node_type::BLACK;
                 return;
             }
 
@@ -107,36 +107,46 @@ namespace ft {
 
     private: // helpers
 
-        void printHelper(_node_type *root, std::string indent, bool last) {
-        if (root != this->_leaf) {
-           std::cout << indent;
-           if (last) {
-              std::cout << "R----";
-              indent += "     ";
-           } else {
-              std::cout << "L----";
-              indent += "|    ";
-           }
-            
-           std::string sColor = root->color?"RED":"BLACK";
-           std::cout << root->data << "(" << sColor << ")" << std::endl;
-           printHelper(root->left, indent, false);
-           printHelper(root->right, indent, true);
+        void printHelper(node_type *root, std::string indent, bool last) {
+            if (root != this->_leaf) {
+            std::cout << indent;
+            if (last) {
+                std::cout << "R----";
+                indent += "     ";
+            } else {
+                std::cout << "L----";
+                indent += "|    ";
+            }
+                
+            std::string sColor = root->color?"RED":"BLACK";
+            std::cout << root->data << "(" << sColor << ")" << std::endl;
+            printHelper(root->left, indent, false);
+            printHelper(root->right, indent, true);
+            }
         }
-    }
 
-        _node_type *_make_node()
+        node_type *_seach_helper(node_type *n, value_type key)
         {
-            _node_type *n = this->_node_alloc.allocate(1);
+            if (n == this->_leaf || (!this->_comp(key, n->data) && !this->_comp(n->data, key)))
+                return n;
+            else if (this->_comp(key, n->data))
+                return this->_seach_helper(n->left, key);
+            else
+                return this->_seach_helper(n->right, key);
+        }
+
+        node_type *_make_node()
+        {
+            node_type *n = this->_node_alloc.allocate(1);
             n->parent = NULL;
             n->left = NULL;
             n->right = NULL;
             return n;
         }
 
-        void _left_rotate(_node_type *x)
+        void _left_rotate(node_type *x)
         {
-            _node_type * y = x->right;
+            node_type * y = x->right;
             x->right = y->left;
             if (y->left != this->_leaf)
                 y->left->parent = x;
@@ -151,9 +161,9 @@ namespace ft {
             x->parent = y; 
         }
 
-        void _right_rotate(_node_type *x)
+        void _right_rotate(node_type *x)
         {
-            _node_type * y = x->left;
+            node_type * y = x->left;
             x->left = y->right;
             if (y->right != this->_leaf)
                 y->right->parent = x;
@@ -168,19 +178,19 @@ namespace ft {
             x->parent = y; 
         }
 
-        void _fix_insert(_node_type *k)
+        void _fix_insert(node_type *k)
         {
-            _node_type *u;
-            while (k->parent->color == _node_type::RED)
+            node_type *u;
+            while (k->parent->color == node_type::RED)
             {
                 if (k->parent == k->parent->parent->right)
                 {
                     u = k->parent->parent->left;
-                    if (u->color == _node_type::RED)
+                    if (u->color == node_type::RED)
                     {
-                        u->color = _node_type::BLACK;
-                        k->parent->color = _node_type::BLACK;
-                        k->parent->parent->color = _node_type::RED;
+                        u->color = node_type::BLACK;
+                        k->parent->color = node_type::BLACK;
+                        k->parent->parent->color = node_type::RED;
                         k = k->parent->parent;
                     }
                     else
@@ -190,19 +200,19 @@ namespace ft {
                             k = k->parent;
                             this->_right_rotate(k);
                         }
-                        k->parent->color = _node_type::BLACK;
-                        k->parent->parent->color = _node_type::RED;
+                        k->parent->color = node_type::BLACK;
+                        k->parent->parent->color = node_type::RED;
                         this->_left_rotate(k->parent->parent);
                     }
                 }
                 else
                 {
                     u = k->parent->parent->right;
-                    if (u->color == _node_type::RED)
+                    if (u->color == node_type::RED)
                     {
-                        u->color = _node_type::BLACK;
-                        k->parent->color = _node_type::BLACK;
-                        k->parent->parent->color = _node_type::RED;
+                        u->color = node_type::BLACK;
+                        k->parent->color = node_type::BLACK;
+                        k->parent->parent->color = node_type::RED;
                         k = k->parent->parent;
                     }
                     else
@@ -212,15 +222,15 @@ namespace ft {
                             k = k->parent;
                             this->_left_rotate(k);
                         }
-                        k->parent->color = _node_type::BLACK;
-                        k->parent->parent->color = _node_type::RED;
+                        k->parent->color = node_type::BLACK;
+                        k->parent->parent->color = node_type::RED;
                         this->_right_rotate(k->parent->parent);
                     }
                 }
                 if (k == this->_root)
                     break;
             }
-            this->_root->color = _node_type::BLACK;
+            this->_root->color = node_type::BLACK;
         }
 
     };
