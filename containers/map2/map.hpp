@@ -58,10 +58,19 @@ namespace ft
         value_compare                                       _value_comp;
         _rbtree<value_type, value_compare, allocator_type>  _tree;
 
-    public:
+    public: // constructors & destructor
 
         explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
             : _alloc(alloc), _key_comp(comp), _value_comp(_key_comp), _tree(_value_comp, _alloc)
+        {}
+
+        map(const map &x)
+        {}
+
+        ~map()
+        {}
+
+        map &operator=(const map &x)
         {}
 
     };

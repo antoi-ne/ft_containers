@@ -39,7 +39,7 @@ namespace ft {
 
         value_compare                                               _comp;
         allocator_type                                              _alloc;
-        typename allocator_type::template rebind<node_type>::other _node_alloc;
+        typename allocator_type::template rebind<node_type>::other  _node_alloc;
 
         node_type                                                   *_root;
         node_type                                                   *_leaf;
@@ -47,7 +47,7 @@ namespace ft {
     public: // contructors & destructors
 
         _rbtree(value_compare comp = value_compare(), allocator_type alloc = allocator_type())
-            : _comp(comp), _alloc(alloc)
+            : _comp(comp), _alloc(alloc), _node_alloc()
         {
             this->_leaf = this->_make_node();
             this->_leaf->color = node_type::LEAF;
@@ -104,6 +104,13 @@ namespace ft {
 
             this->_fix_insert(n);
         }
+
+        node_type *search(value_type key)
+        {
+            return this->_seach_helper(this->_root, key);
+        }
+
+
 
     private: // helpers
 
@@ -231,6 +238,103 @@ namespace ft {
                     break;
             }
             this->_root->color = node_type::BLACK;
+        }
+
+        void _transplant(node_type *u, node_type *v)
+        {
+            if (u->parent == NULL)
+                this->_root = v;
+            else if (u == u->parent->left)
+                u->parent->left = v;
+            else
+                u->parent->right = v;
+            v->parent = u->parent;
+        }
+
+        node_type *_minimum(node_type *n)
+        {
+            while (n->left != this->_leaf) {
+                n = n->left;
+            }
+            return n;
+        }
+
+        node_type *_maximum(node_type *n)
+        {
+            while (n->right != this->_leaf) {
+                n = n->right;
+            }
+            return n;
+        }
+
+        void _fix_delete(node_type *x)
+        {
+            node_type *s;
+            while (x != this->_root && x->color == node_type::BLACK)
+            {
+                if (x == x->parent->left) {
+                    s = x->parent->right;
+                    if (s->color == node_type::RED)
+                    {
+                        s->color = node_type::BLACK;
+                        x->parent->color = node_type::RED;
+                        this->_left_rotate(x->parent);
+                        s = x->parent->right;
+                    }
+                    if (s->left->color == node_type::BLACK && s->right->color == node_type::BLACK)
+                    {
+                        s->color = node_type::RED;
+                        x = x->parent;
+                    }
+                    else
+                    {
+                        if (s->right->color == node_type::BLACK)
+                        {
+                            s->left->color = node_type::BLACK;
+                            s->color = node_type::RED;
+                            this->_right_rotate(s);
+                            s = x->parent->right;
+                        }
+                        s->color = x->parent->color;
+                        x->parent->color = node_type::BLACK;
+                        s->right->color = node_type::BLACK;
+                        this->_left_rotate(x->parent);
+                        x = this->_root;
+                    }
+                }
+                else
+                {
+                    s = x->parent->left;
+                    if (s->color == node_type::RED)
+                    {
+                        s->color = node_type::BLACK;
+                        x->parent->color = node_type::RED;
+                        this->_right_rotate(x->parent);
+                        s = x->parent->left;
+                    }
+                    if (s->right->color == node_type::BLACK && s->right->color == node_type::BLACK)
+                    {
+                        s->color = node_type::RED;
+                        x = x->parent;
+                    }
+                    else
+                    {
+                        if (s->left->color == node_type::BLACK)
+                        {
+                            s->right->color = node_type::BLACK;
+                            s->color = node_type::RED;
+                            this->_left_rotate(s);
+                            s = x->parent->left;
+                        }
+                        s->color = x->parent->color;
+                        x->parent->color = node_type::BLACK;
+                        s->left->color = node_type::BLACK;
+                        this->_right_rotate(x->parent);
+                        x = this->_root;
+                    }
+                }
+            }
+            x->color = node_type::BLACK;
         }
 
     };
